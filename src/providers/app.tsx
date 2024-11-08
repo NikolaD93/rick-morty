@@ -1,12 +1,13 @@
 import { Suspense } from 'react';
-import { QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { queryClient } from '@/lib/react-query';
+// import { queryClient } from '@/lib/react-query';
 import { AppRoutes } from '@/routes';
 
 export const AppProvider = () => {
+  const queryClient = new QueryClient();
   const Router = createBrowserRouter(AppRoutes);
   return (
     <Suspense

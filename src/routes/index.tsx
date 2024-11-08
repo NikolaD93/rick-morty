@@ -2,6 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/ui/header';
+import { CharactersRoutes } from '@/features/characters';
 import { NotFound } from '@/features/misc/routes/NotFound';
 
 const App = () => {
@@ -34,6 +35,7 @@ export const AppRoutes = [
     path: '/',
     element: <App />,
     children: [
+      { path: 'characters/*', element: <CharactersRoutes />, errorElement: <ErrorFallback /> },
       { path: '/404', element: <NotFound />, errorElement: <ErrorFallback /> },
       { path: '*', element: <Navigate to="." />, errorElement: <ErrorFallback /> },
     ],
