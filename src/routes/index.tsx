@@ -9,7 +9,7 @@ const App = () => {
   return (
     <div className="relative flex min-h-screen flex-col">
       <Header />
-      <div className="flex-1">
+      <div className="container mx-auto">
         <Outlet />
       </div>
     </div>
