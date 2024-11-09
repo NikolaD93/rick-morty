@@ -7,15 +7,17 @@ import { getStatusColor } from '@/utils/getStatusColor';
 
 type CharacterCardProps = {
   data: Character[] | undefined;
+  innerRef?: React.Ref<HTMLDivElement>;
 };
 
-export const CharacterCard = ({ data }: CharacterCardProps) => {
+export const CharacterCard = ({ data, innerRef }: CharacterCardProps) => {
   return (
     <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-10">
-      {data?.map((character) => {
+      {data?.map((character, idx) => {
+        const isLastItem = idx + 1 === data.length;
         return (
           <Link to={`/characters/${character.id}`} key={character.id}>
-            <Card className="w-[350px]">
+            <Card ref={isLastItem ? innerRef : undefined} className="w-[350px]">
               <CardHeader>
                 <img
                   className="rounded-sm"

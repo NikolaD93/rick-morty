@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Loader } from '@/components/ui/loader';
 import { getStatusColor } from '@/utils/getStatusColor';
 
-import { useCharacter } from '../hooks/useSingleCharacter';
+import { useCharacter } from '../api/getSingleCharacter';
 
 export const SingleCharacter = () => {
   const { id } = useParams();

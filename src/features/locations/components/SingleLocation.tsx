@@ -2,9 +2,9 @@ import { useParams } from 'react-router-dom';
 
 import { CharacterCard } from '@/components/shared/CharacterCard';
 import { Loader } from '@/components/ui/loader';
-import { useMiltipleCharacters } from '@/features/characters/hooks/useMultipleCharacters';
+import { useMiltipleCharacters } from '@/features/characters/api/getMultipleCharacters';
 
-import { useLocation } from '../hooks/useSingleLocation';
+import { useLocation } from '../api/getSingleLocation';
 
 export const SingleLocation = () => {
   const { id } = useParams();

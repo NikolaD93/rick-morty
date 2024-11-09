@@ -2,9 +2,9 @@ import { useParams } from 'react-router-dom';
 
 import { CharacterCard } from '@/components/shared/CharacterCard';
 import { Loader } from '@/components/ui/loader';
-import { useMiltipleCharacters } from '@/features/characters/hooks/useMultipleCharacters';
+import { useMiltipleCharacters } from '@/features/characters/api/getMultipleCharacters';
 
-import { useEpisode } from '../hooks/useSingleEpisode';
+import { useEpisode } from '../api/getSingleEpisode';
 
 export const SingleEpisode = () => {
   const { id } = useParams();
