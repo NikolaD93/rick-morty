@@ -3,6 +3,8 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/ui/header';
 import { CharactersRoutes } from '@/features/characters';
+import { EpisodesRoutes } from '@/features/episodes';
+import { LocationsRoutes } from '@/features/locations';
 import { NotFound } from '@/features/misc/routes/NotFound';
 
 const App = () => {
@@ -36,6 +38,8 @@ export const AppRoutes = [
     element: <App />,
     children: [
       { path: 'characters/*', element: <CharactersRoutes />, errorElement: <ErrorFallback /> },
+      { path: 'episode/*', element: <EpisodesRoutes />, errorElement: <ErrorFallback /> },
+      { path: 'location/*', element: <LocationsRoutes />, errorElement: <ErrorFallback /> },
       { path: '/404', element: <NotFound />, errorElement: <ErrorFallback /> },
       { path: '*', element: <Navigate to="." />, errorElement: <ErrorFallback /> },
     ],

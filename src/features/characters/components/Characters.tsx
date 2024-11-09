@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { Loader } from '@/components/ui/loader';
 import { Character } from '@/types/character';
 
+import { CharacterCard } from '../../../components/shared/CharacterCard';
 import { useCharacters } from '../hooks/useCharacters';
 
-import { CharacterCard } from './CharacterCard';
 import SearchInput from './SearchInput';
 
 export const Characters = () => {
@@ -32,10 +32,10 @@ export const Characters = () => {
 
   return (
     <div className="mb-20">
-      <h1 className="mb-20 mt-10 text-center text-6xl font-bold">Characters</h1>
+      <h1 className="my-10 text-center text-7xl font-bold">Characters</h1>
       <SearchInput inputValue={inputValue} setInputValue={setInputValue} />
       {filteredCharacters.length > 0 ? (
-        <CharacterCard filteredCharacters={filteredCharacters} />
+        <CharacterCard data={filteredCharacters} />
       ) : (
         <p className="text-center text-lg font-semibold">No character found...</p>
       )}
