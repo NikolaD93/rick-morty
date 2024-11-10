@@ -9,19 +9,16 @@ interface CharactersResponse {
 }
 
 export const useCharacters = (): UseInfiniteQueryResult<CharactersResponse> => {
-  const fetchCharacters = async ({ pageParam }: { pageParam: number }) => {
+  const fetchCharacters = async ({ pageParam = 1 }: { pageParam?: number }) => {
     const res = await axios.get<CharactersResponse>(
       `${VITE_BACKEND_API}/character?page=${pageParam}`
     );
     return res.data;
   };
 
-  return useInfiniteQuery<CharactersResponse>({
-    queryKey: ['characters'],
-    queryFn: fetchCharacters,
-    defaultPageParam: 1,
+  return useInfiniteQuery<CharactersResponse>(['characters'], fetchCharacters, {
     getNextPageParam: (lastPage, allPages) => {
-      return allPages.length + 1;
+      return lastPage.results.length > 0 ? allPages.length + 1 : undefined;
     },
   });
 };

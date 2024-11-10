@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Loader } from '@/components/ui/loader';
+import { formatDate } from '@/utils/formatDate';
 import { getStatusColor } from '@/utils/getStatusColor';
 
 import { useCharacter } from '../api/getSingleCharacter';
@@ -62,7 +63,7 @@ export const SingleCharacter = () => {
             Origin: <span className="text-muted-foreground">{data.origin.name}</span>
           </p>
           <p className="text-xl">
-            Created at: <span className="text-muted-foreground">{data.created}</span>
+            Created at: <span className="text-muted-foreground">{formatDate(data.created)}</span>
           </p>
           <div className="mt-4">
             <p className="mb-4 text-xl">Episode(s):</p>

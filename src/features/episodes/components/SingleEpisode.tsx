@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { CharacterCard } from '@/components/shared/CharacterCard';
 import { Loader } from '@/components/ui/loader';
 import { useMiltipleCharacters } from '@/features/characters/api/getMultipleCharacters';
+import { getCharacterIds } from '@/utils/getCharactersIds';
 
 import { useEpisode } from '../api/getSingleEpisode';
 
@@ -12,8 +13,7 @@ export const SingleEpisode = () => {
 
   const { data, isLoading, isError } = useEpisode(characterId as number);
 
-  const charactersIds =
-    data?.characters?.map((characterUrl) => characterUrl.split('/').pop() || '') ?? [];
+  const charactersIds = getCharacterIds(data?.characters || []);
 
   const { data: multipleCharacters } = useMiltipleCharacters(charactersIds);
 

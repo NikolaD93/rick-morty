@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { CharacterCard } from '@/components/shared/CharacterCard';
 import { Loader } from '@/components/ui/loader';
 import { useMiltipleCharacters } from '@/features/characters/api/getMultipleCharacters';
+import { getCharacterIds } from '@/utils/getCharactersIds';
 
 import { useLocation } from '../api/getSingleLocation';
 
@@ -12,8 +13,7 @@ export const SingleLocation = () => {
 
   const { data, isLoading, isError } = useLocation(locationId as number);
 
-  const charactersIds =
-    data?.residents?.map((residentUrl) => residentUrl.split('/').pop() || '') ?? [];
+  const charactersIds = getCharacterIds(data?.residents || []);
 
   const { data: multipleCharacters } = useMiltipleCharacters(charactersIds);
 
