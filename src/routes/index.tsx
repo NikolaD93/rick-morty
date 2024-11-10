@@ -2,6 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/ui/header';
+import { AuthRoutes } from '@/features/auth';
 import { CharactersRoutes } from '@/features/characters';
 import { EpisodesRoutes } from '@/features/episodes';
 import { LocationsRoutes } from '@/features/locations';
@@ -33,6 +34,15 @@ export const ErrorFallback = () => {
 };
 
 export const AppRoutes = [
+  {
+    path: '/',
+    element: <AuthRoutes />,
+    children: [
+      { path: '/404', element: <NotFound />, errorElement: <ErrorFallback /> },
+      { path: '*', element: <Navigate to="." />, errorElement: <ErrorFallback /> },
+    ],
+    errorElement: <ErrorFallback />,
+  },
   {
     path: '/',
     element: <App />,

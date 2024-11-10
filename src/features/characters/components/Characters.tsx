@@ -21,8 +21,6 @@ export const Characters = () => {
     character.name.toLowerCase().includes(inputValue.toLowerCase())
   );
 
-  console.log(filteredCharacters);
-
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
