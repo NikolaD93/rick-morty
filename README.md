@@ -1,50 +1,21 @@
-# React + TypeScript + Vite
+## Setup Guide - Steps to Start the Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- Clone the project repository from the remote repository where it is stored.
 
-Currently, two official plugins are available:
+- Install all the required dependencies using the `npm install` command.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Make .evn file in the root of the application (you can find it below)
 
-## Expanding the ESLint configuration
+- Run the `npm run dev` command to start the development server.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Open your web browser and go to http://localhost:5173 to see the application running.
 
-- Configure the top-level `parserOptions` property like this:
+## .evn file
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+`VITE_BACKEND_API=https://rickandmortyapi.com/api
+VITE_FIREBASE_API_KEY=AIzaSyD8ZZb5TXEo6Qscj4ki8E5MKgS9MOXZSuo
+VITE_FIREBASE_AUTH_DOMAIN=shindiri-test.firebaseapp.com
+VITE_FIREBASE_STORAGE_BUCKET=shindiri-test.appspot.com
+VITE_FIREBASE_MSG_SENDER_ID=52617965392
+VITE_FIREBASE_API_ID=1:52617965392:web:fc3ff399c4d2e6db6e4655
+VITE_FIREBASE_MEASUREMENT_ID=G-CBB903KCR9`
