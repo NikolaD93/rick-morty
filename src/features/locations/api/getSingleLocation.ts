@@ -12,5 +12,6 @@ export const useLocation = (locationId: number): UseQueryResult<Location> => {
     queryKey: ['location', locationId],
     queryFn: fethcLocation,
     enabled: !!locationId,
+    retry: 1,
   });
 };

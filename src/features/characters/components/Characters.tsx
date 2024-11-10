@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import ScrollToTop from 'react-scroll-to-top';
 
@@ -10,35 +10,40 @@ import { useCharacters } from '../api/getCharacters';
 import SearchInput from './SearchInput';
 
 export const Characters = () => {
-  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useCharacters();
   const [inputValue, setInputValue] = useState('');
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage, remove } =
+    useCharacters(inputValue);
   const { ref, inView } = useInView();
 
-  const characters = data?.pages.flatMap((page) => page.results) || [];
+  const handleInput = (value: string) => {
+    setInputValue(value);
+    remove();
+  };
 
-  const filteredCharacters = characters.filter((character) =>
-    character.name.toLowerCase().includes(inputValue.toLowerCase())
-  );
+  const characters = useMemo(() => {
+    if (!data) {
+      return [];
+    }
+    const _characters = data?.pages.flatMap((page) => page.results) || [];
+    return _characters;
+  }, [data, inputValue]);
 
   useEffect(() => {
     if (inView && hasNextPage) {
-      fetchNextPage();
+      if (hasNextPage) {
+        fetchNextPage();
+      }
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (!characters || isError) {
+  if (isError) {
     return <p>Error...</p>;
   }
 
   return (
     <div className="mb-20">
       <h1 className="my-10 text-center text-7xl font-bold">Characters</h1>
-      <SearchInput inputValue={inputValue} setInputValue={setInputValue} />
+      <SearchInput inputValue={inputValue} setInputValue={handleInput} />
       <ScrollToTop
         smooth
         color="#ffffff"
@@ -52,12 +57,18 @@ export const Characters = () => {
           justifyContent: 'center',
         }}
       />
-      {filteredCharacters.length > 0 ? (
-        <CharacterCard innerRef={ref} data={filteredCharacters} />
-      ) : (
-        <p className="text-center text-lg font-semibold">No character found...</p>
+      {isLoading && <Loader />}
+      {!isLoading && (
+        <>
+          {characters.length > 0 ? (
+            <CharacterCard data={characters} />
+          ) : (
+            <p className="text-center text-lg font-semibold">No character found...</p>
+          )}
+        </>
       )}
       {isFetchingNextPage && <h3 className="text-center text-3xl font-bold">Loading...</h3>}
+      <div ref={ref}></div>
     </div>
   );
 };

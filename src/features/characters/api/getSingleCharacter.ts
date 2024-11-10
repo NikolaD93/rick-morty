@@ -12,5 +12,6 @@ export const useCharacter = (characterId: number): UseQueryResult<Character> => 
     queryKey: ['character', characterId],
     queryFn: fetchCharacter,
     enabled: !!characterId,
+    retry: 1,
   });
 };

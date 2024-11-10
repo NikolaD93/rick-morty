@@ -8,17 +8,34 @@ interface CharactersResponse {
   results: Character[];
 }
 
-export const useCharacters = (): UseInfiniteQueryResult<CharactersResponse> => {
+export const useCharacters = (
+  characterName: string
+): UseInfiniteQueryResult<CharactersResponse> => {
   const fetchCharacters = async ({ pageParam = 1 }: { pageParam?: number }) => {
-    const res = await axios.get<CharactersResponse>(
-      `${VITE_BACKEND_API}/character?page=${pageParam}`
-    );
-    return res.data;
+    try {
+      const res = await axios.get<CharactersResponse>(`${VITE_BACKEND_API}/character`, {
+        params: {
+          name: characterName,
+          page: pageParam,
+        },
+      });
+      return res.data;
+    } catch (err: unknown) {
+      console.error(err);
+      return {
+        results: [],
+      };
+    }
   };
 
   return useInfiniteQuery<CharactersResponse>(['characters'], fetchCharacters, {
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.results.length > 0 ? allPages.length + 1 : undefined;
+      //@ts-expect-error tsc
+      if (lastPage?.info?.next !== null) {
+        return lastPage.results.length > 0 ? allPages.length + 1 : undefined;
+      }
+
+      return undefined;
     },
   });
 };

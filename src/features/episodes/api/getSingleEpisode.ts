@@ -12,5 +12,6 @@ export const useEpisode = (episodeId: number): UseQueryResult<Episode> => {
     queryKey: ['episode', episodeId],
     queryFn: fetchEpisode,
     enabled: !!episodeId,
+    retry: 1,
   });
 };

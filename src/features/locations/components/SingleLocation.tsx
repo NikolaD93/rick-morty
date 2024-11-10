@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios';
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { CharacterCard } from '@/components/shared/CharacterCard';
@@ -11,14 +13,27 @@ export const SingleLocation = () => {
   const { id } = useParams();
   const locationId = id ? parseInt(id, 10) : undefined;
 
-  const { data, isLoading, isError } = useLocation(locationId as number);
+  const { data, isLoading, isError, error } = useLocation(locationId as number);
 
-  const charactersIds = getCharacterIds(data?.residents || []);
+  const charactersIds = useMemo(() => {
+    return getCharacterIds(data?.residents || []);
+  }, [data]);
 
   const { data: multipleCharacters } = useMiltipleCharacters(charactersIds);
 
   if (isLoading) {
     return <Loader />;
+  }
+
+  const isNotFoundError = (error as AxiosError)?.response?.status === 404;
+  if (isNotFoundError) {
+    return (
+      <div className="mt-20 flex flex-col items-center justify-center gap-4">
+        <p className="text-4xl text-muted-foreground">
+          Location with id <span className="text-foreground">{id}</span> not found...
+        </p>
+      </div>
+    );
   }
 
   if (!data || isError) {

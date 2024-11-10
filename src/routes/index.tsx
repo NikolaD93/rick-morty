@@ -1,22 +1,23 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { ReactNode, useContext } from 'react';
+import { Navigate } from 'react-router-dom';
 
+import { AuthenticatedLayout } from '@/components/layouts/AuthenticatedLayout';
 import { Button } from '@/components/ui/button';
-import { Header } from '@/components/ui/header';
+import { AuthContext } from '@/contexts/AuthContext';
 import { AuthRoutes } from '@/features/auth';
 import { CharactersRoutes } from '@/features/characters';
 import { EpisodesRoutes } from '@/features/episodes';
 import { LocationsRoutes } from '@/features/locations';
 import { NotFound } from '@/features/misc/routes/NotFound';
 
-const App = () => {
-  return (
-    <div className="relative flex min-h-screen flex-col">
-      <Header />
-      <div className="container mx-auto">
-        <Outlet />
-      </div>
-    </div>
-  );
+const ProtectedRoute = ({ children }: { children: ReactNode }) => {
+  const { currentUser } = useContext(AuthContext);
+
+  if (!currentUser) {
+    return <Navigate to="/login" />;
+  }
+
+  return <AuthenticatedLayout>{children}</AuthenticatedLayout>;
 };
 
 export const ErrorFallback = () => {
@@ -45,7 +46,7 @@ export const AppRoutes = [
   },
   {
     path: '/',
-    element: <App />,
+    element: <ProtectedRoute children={undefined} />,
     children: [
       { path: 'characters/*', element: <CharactersRoutes />, errorElement: <ErrorFallback /> },
       { path: 'episode/*', element: <EpisodesRoutes />, errorElement: <ErrorFallback /> },

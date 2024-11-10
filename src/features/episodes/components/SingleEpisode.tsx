@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios';
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { CharacterCard } from '@/components/shared/CharacterCard';
@@ -11,14 +13,27 @@ export const SingleEpisode = () => {
   const { id } = useParams();
   const characterId = id ? parseInt(id, 10) : undefined;
 
-  const { data, isLoading, isError } = useEpisode(characterId as number);
+  const { data, isLoading, isError, error } = useEpisode(characterId as number);
 
-  const charactersIds = getCharacterIds(data?.characters || []);
+  const charactersIds = useMemo(() => {
+    return getCharacterIds(data?.characters || []);
+  }, [data]);
 
   const { data: multipleCharacters } = useMiltipleCharacters(charactersIds);
 
   if (isLoading) {
     return <Loader />;
+  }
+
+  const isNotFoundError = (error as AxiosError)?.response?.status === 404;
+  if (isNotFoundError) {
+    return (
+      <div className="mt-20 flex flex-col items-center justify-center gap-4">
+        <p className="text-4xl text-muted-foreground">
+          Episode with id <span className="text-foreground">{id}</span> not found...
+        </p>
+      </div>
+    );
   }
 
   if (!data || isError) {

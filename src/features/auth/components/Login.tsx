@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
@@ -14,9 +14,12 @@ import { FormSchema } from '../types/formSchema';
 import { AuthForm } from './AuthForm';
 
 export const Login = () => {
-  const { login } = useContext(AuthContext);
-
+  const { login, currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  if (currentUser) {
+    return <Navigate to="/characters" />;
+  }
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const { email, password } = data;

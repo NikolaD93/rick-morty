@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { ChevronLeft } from 'lucide-react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -13,10 +14,21 @@ export const SingleCharacter = () => {
   const navigate = useNavigate();
   const characterId = id ? parseInt(id, 10) : undefined;
 
-  const { data, isLoading, isError } = useCharacter(characterId as number);
+  const { data, isLoading, isError, error } = useCharacter(characterId as number);
 
   if (isLoading) {
     return <Loader />;
+  }
+
+  const isNotFoundError = (error as AxiosError)?.response?.status === 404;
+  if (isNotFoundError) {
+    return (
+      <div className="mt-20 flex flex-col items-center justify-center gap-4">
+        <p className="text-4xl text-muted-foreground">
+          Character with id <span className="text-foreground">{id}</span> not found...
+        </p>
+      </div>
+    );
   }
 
   if (!data || isError) {
