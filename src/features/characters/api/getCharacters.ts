@@ -12,7 +12,8 @@ interface CharactersResponse {
 }
 
 export const useCharacters = (
-  characterName: string
+  characterName: string,
+  filterValue: string
 ): UseInfiniteQueryResult<CharactersResponse> => {
   const fetchCharacters = async ({ pageParam = 1 }: { pageParam?: number }) => {
     // console.log(pageParam);
@@ -21,6 +22,7 @@ export const useCharacters = (
         params: {
           name: characterName,
           page: pageParam,
+          status: filterValue,
         },
       });
       return res.data;
@@ -32,6 +34,7 @@ export const useCharacters = (
     }
   };
 
+  //! coud've added characterName in the 'chacacters' queryKey - ['characters', characterName, filterValue]
   return useInfiniteQuery<CharactersResponse>(['characters'], fetchCharacters, {
     getNextPageParam: (lastPage, allPages) => {
       //LAST PAGE - represents the data returned from the most recent fetch (the last page of data retrieved so far).

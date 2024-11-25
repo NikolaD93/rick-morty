@@ -7,18 +7,37 @@ import { Loader } from '@/components/ui/loader';
 import { CharacterCard } from '../../../components/shared/CharacterCard';
 import { useCharacters } from '../api/getCharacters';
 
+import { FilterCharacters } from './FilterCharacters';
 import SearchInput from './SearchInput';
 
 export const Characters = () => {
   const [inputValue, setInputValue] = useState('');
-  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage, remove } =
-    useCharacters(inputValue);
+  const [filterValue, setFilterValue] = useState('');
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    remove,
+    refetch,
+  } = useCharacters(inputValue, filterValue);
 
   const { ref, inView } = useInView();
 
   const handleInput = (value: string) => {
     setInputValue(value);
     remove();
+    // refetch();
+    //? Also coud've added characterName in the 'chacacters' queryKey - ['characters', characterName, filterValue], so no need for the remove then
+  };
+
+  const handleFilter = (value: string) => {
+    setFilterValue(value);
+    remove();
+    // refetch();
+    //? Also coud've added characterName in the 'chacacters' queryKey - ['characters', characterName, filterValue], so no need for the remove then
   };
 
   // From the data I get two arrays:
@@ -48,7 +67,8 @@ export const Characters = () => {
     }
     const _characters = data?.pages.flatMap((page) => page.results) || [];
     return _characters;
-  }, [data, inputValue]);
+    // return data?.pages.flatMap((page) => page.results) || []; //! Could've used this instead - shorter
+  }, [data, inputValue, filterValue]);
 
   //! should've used useCallback instead -
   //  const { ref: inViewRef, inView } = useInView();
@@ -82,7 +102,10 @@ export const Characters = () => {
   return (
     <div className="mb-20">
       <h1 className="my-10 text-center text-7xl font-bold">Characters</h1>
-      <SearchInput inputValue={inputValue} setInputValue={handleInput} />
+      <div className="flex gap-4">
+        <SearchInput inputValue={inputValue} setInputValue={handleInput} />
+        <FilterCharacters setFilterValue={handleFilter} />
+      </div>
       <ScrollToTop
         smooth
         color="#ffffff"

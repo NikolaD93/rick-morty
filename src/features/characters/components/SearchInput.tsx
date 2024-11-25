@@ -9,7 +9,7 @@ export default function SearchInput({ inputValue, setInputValue }: SearchInputPr
   return (
     <div className="relative w-full max-w-md">
       <svg
-        className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-500"
+        className="absolute left-3 top-6 h-5 w-5 -translate-y-1/2 transform text-gray-500"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
