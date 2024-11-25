@@ -11,7 +11,7 @@ export const useCharacter = (characterId: number): UseQueryResult<Character> => 
   return useQuery<Character>({
     queryKey: ['character', characterId],
     queryFn: fetchCharacter,
-    enabled: !!characterId,
-    retry: 1,
+    enabled: !!characterId, // this means that The query is enabled if charactersId is truthy (i.e., it is not null, undefined, an empty string, or an empty array). (if it is like this - !charactersIds, that means it's falsy and it will not fetch the data)
+    retry: 1, // (React Query retries 3 times by default)
   });
 };

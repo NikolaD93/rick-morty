@@ -20,7 +20,7 @@ export const Loader = ({
       setLoadingText('This is taking longer than expected... :/');
     }, 10000);
 
-    return () => clearTimeout(timeoutId);
+    return () => clearTimeout(timeoutId); // cleanup - executed When the Loader component unmounts: loading process finishes or If the user navigates to a different page
   }, []);
 
   const spinnerStyle = {

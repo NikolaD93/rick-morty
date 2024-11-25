@@ -46,8 +46,11 @@ export const AppRoutes = [
   },
   {
     path: '/',
+    //In your current AppRoutes, children in AuthenticatedLayout isn’t immediately necessary because you’re relying on <Outlet /> for nested routes. However, children is a design choice to keep the layout flexible for future use cases where you might want to inject content directly without going through the routing system. - eg. <Dashboard/>
     element: <ProtectedRoute children={undefined} />,
     children: [
+      //By adding *, you're signaling that these paths include nested sub-routes, and React Router should delegate deeper path matching to the respective component.
+      // Also - The * allows the corresponding route element (e.g., <CharactersRoutes />) to define and manage its own sub-routes, rather than requiring you to define all sub-routes globally in AppRoutes.
       { path: 'characters/*', element: <CharactersRoutes />, errorElement: <ErrorFallback /> },
       { path: 'episode/*', element: <EpisodesRoutes />, errorElement: <ErrorFallback /> },
       { path: 'location/*', element: <LocationsRoutes />, errorElement: <ErrorFallback /> },

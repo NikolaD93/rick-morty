@@ -13,6 +13,7 @@ export const Characters = () => {
   const [inputValue, setInputValue] = useState('');
   const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage, remove } =
     useCharacters(inputValue);
+
   const { ref, inView } = useInView();
 
   const handleInput = (value: string) => {
@@ -20,6 +21,27 @@ export const Characters = () => {
     remove();
   };
 
+  // From the data I get two arrays:
+  //! pages: [
+  //!  { /* response for page 1 */ },
+  //!  { /* response for page 2 */ },
+  //!  ...
+  //! ],
+  //! pageParams : [ /* pageParam values passed during fetch */ ]
+  // And in the pages I've got an array with nested arrays, and then I need to use flatMap in order to make one array out of a couple of arrays.
+
+  //? Could've display the data like this as well
+  // <div>
+  //   {data?.pages.map((page, id) => (
+  //     <React.Fragment key={id}>
+  //       {page.results.map((char) => (
+  //         <p key={char.id}>{char.image}</p>
+  //       ))}
+  //     </React.Fragment>
+  //   ))}
+  // </div>;
+
+  //TODO write explanation for useMemo
   const characters = useMemo(() => {
     if (!data) {
       return [];
@@ -28,13 +50,30 @@ export const Characters = () => {
     return _characters;
   }, [data, inputValue]);
 
+  //! should've used useCallback instead -
+  //  const { ref: inViewRef, inView } = useInView();
+
+  //   const setRef = useCallback(
+  //     (node) => {
+  //       inViewRef(node); // Link the node to the inView observer
+  //     },
+  //     [inViewRef]
+  //   );
+
+  //   if (inView && hasNextPage) {
+  //     fetchNextPage();
+  //   }
+
+  //<div ref={setRef}></div>
+
   useEffect(() => {
     if (inView && hasNextPage) {
       if (hasNextPage) {
+        // redundant - should be removed
         fetchNextPage();
       }
     }
-  }, [inView, hasNextPage, fetchNextPage]);
+  }, [inView, hasNextPage, fetchNextPage]); // fetchNext page is redundat dependency
 
   if (isError) {
     return <p>Error...</p>;

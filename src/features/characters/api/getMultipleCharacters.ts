@@ -13,6 +13,6 @@ export const useMiltipleCharacters = (charactersIds: string[]): UseQueryResult<C
   return useQuery<Character[]>({
     queryKey: ['multipleCharacters', charactersIds],
     queryFn: fetchMultipleCharacters,
-    enabled: !!charactersIds,
+    enabled: !!charactersIds, // this means that The query is enabled if charactersIds is truthy (i.e., it is not null, undefined, an empty string, or an empty array). (if it is like this - !charactersIds, that means it's falsy and it will not fetch the data)
   });
 };
