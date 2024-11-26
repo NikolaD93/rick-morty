@@ -60,7 +60,6 @@ export const Characters = () => {
   //   ))}
   // </div>;
 
-  //TODO write explanation for useMemo
   const characters = useMemo(() => {
     if (!data) {
       return [];
@@ -69,6 +68,9 @@ export const Characters = () => {
     return _characters;
     // return data?.pages.flatMap((page) => page.results) || []; //! Could've used this instead - shorter
   }, [data, inputValue, filterValue]);
+
+  // const characters = data?.pages.flatMap((page) => page.results) || [];
+  // console.log('without useMemo');
 
   //! should've used useCallback instead -
   //  const { ref: inViewRef, inView } = useInView();

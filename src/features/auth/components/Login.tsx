@@ -7,6 +7,8 @@ import { z } from 'zod';
 import main from '@/assets/main.jpg';
 import { Separator } from '@/components/ui/separator';
 import { AuthContext } from '@/contexts/AuthContext';
+import { doSignInWithEmailAndPassword } from '@/firebase/auth';
+//! should've used this
 import { auth } from '@/firebase/firebase.config';
 
 import { FormSchema } from '../types/formSchema';

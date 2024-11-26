@@ -13,7 +13,7 @@ import { NotFound } from '@/features/misc/routes/NotFound';
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const { currentUser } = useContext(AuthContext);
 
-  if (!currentUser) {
+  if (!currentUser?.accessToken) {
     return <Navigate to="/login" />;
   }
 

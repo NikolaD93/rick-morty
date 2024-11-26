@@ -12,12 +12,17 @@ import { useEpisode } from '../api/getSingleEpisode';
 export const SingleEpisode = () => {
   const { id } = useParams();
   const characterId = id ? parseInt(id, 10) : undefined;
+  // const [count, setCount] = useState(0);
 
   const { data, isLoading, isError, error } = useEpisode(characterId as number);
 
   const charactersIds = useMemo(() => {
+    console.log('Recalculating character IDs...');
     return getCharacterIds(data?.characters || []);
   }, [data]);
+
+  // const charactersIds = getCharacterIds(data?.characters || []);
+  // console.log('Calculating character IDs (without useMemo)...');
 
   const { data: multipleCharacters } = useMiltipleCharacters(charactersIds);
 
@@ -50,6 +55,7 @@ export const SingleEpisode = () => {
         Air date: <span className="text-muted-foreground">{data?.air_date}</span>
       </p>
       <p className="mb-6 text-xl font-bold">Characters: {multipleCharacters?.length}</p>
+      {/* <button onClick={() => setCount(count + 1)}>Plus {count}</button> */}
       <CharacterCard data={multipleCharacters} />
     </div>
   );

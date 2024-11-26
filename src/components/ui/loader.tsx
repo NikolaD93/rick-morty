@@ -56,7 +56,7 @@ export const Loader = ({
   `;
 
   return (
-    <div className={`h-main flex w-full flex-col items-center justify-center gap-4`}>
+    <div className={`flex h-screen w-full flex-col items-center justify-center gap-4`}>
       <style>{keyframes}</style>
       <svg
         viewBox="0 0 66 66"

@@ -11,7 +11,7 @@ export const useEpisode = (episodeId: number): UseQueryResult<Episode> => {
   return useQuery<Episode>({
     queryKey: ['episode', episodeId],
     queryFn: fetchEpisode,
-    enabled: !!episodeId, // this means that The query is enabled if episodeId is truthy (i.e., it is not null, undefined, an empty string, or an empty array). (if it is like this - !charactersIds, that means it's falsy and it will not fetch the data)
+    enabled: !!episodeId, // this means that The query is enabled if episodeId is truthy (i.e., it is not null, undefined, an empty string, or an empty array). (if it is like this - !episodeId, that means it's falsy and it will not fetch the data)
     retry: 1, // (React Query retries 3 times by default)
   });
 };
